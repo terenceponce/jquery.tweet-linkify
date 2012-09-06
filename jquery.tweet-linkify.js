@@ -7,8 +7,8 @@
 
   The hyperlink text transforming was based off of jLinker.js by Michalis Tzikas and Vasilis Lolos.
 
-  The use-case of this plugin is very small and using this plugin means that you're either
-  unauthenticated when calling the Twitter API or you're calling tweets from the Twitter API the wrong way.
+  The use-case of this plugin is very small and using this plugin means that you're most probably
+  calling the Twitter API through Javascript just like me.
 
   It's not necessarily bad because hey, whatever works, right?
 */
@@ -17,6 +17,8 @@
 
     var defaultAttributes = {
       excludeHyperlinks: false,
+      excludeMentions: false,
+      excluldeHashtags: false,
       target: '',
       className: '',
       rel: ''
@@ -37,7 +39,14 @@
         tweet = tweet.replace(/<([^a]|^\/a])([^<>]+)>/g, "&lt;$1$2&gt;").replace(/&lt;\/a&gt;/g, "</a>").replace(/<(.)>/g, "&lt;$1&gt;").replace(/\n/g, '<br />');
       }
 
-      tweet = tweet.replace(/(@)(\w+)/, '<a href="http://twitter.com/$2">$1$2</a>');
+      if (options.excludeMentions != true) {
+        tweet = tweet.replace(/(@)(\w+)/, '<a href="http://twitter.com/$2">$1$2</a>');
+      }
+
+      if (options.excluldeHashtags != true) {
+        tweet = tweet.replace(/(#)(\w+)/, '<a href="https://twitter.com/search/?src=hash&q=%23$2">$1$2</a>');
+      }
+
       $(this).html(tweet);
     })
   }

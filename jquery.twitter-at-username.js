@@ -9,7 +9,7 @@
       tweet = $(this).text();
 
       tweet = tweet.replace(/(@)(\w+)/, '<a href="http://twitter.com/$2">$1$2</a>');
-      $(this).html(t);
+      $(this).html(tweet);
     })
   }
-});
+})(jQuery);

@@ -1,6 +1,6 @@
 # jQuery Tweet Linkify
 
-This is a small jQuery plugin that transform @username texts into hyperlinks pointing to the actual Twitter profile as well as hyperlink texts into actual hyperlinks.
+This is a small jQuery plugin that transforms @username texts into hyperlinks pointing to the actual Twitter profile as well as hyperlink texts into actual hyperlinks.
 
 The hyperlink text transforming was based off of jLinker.js by Michalis Tzikas and Vasilis Lolos.
 
@@ -8,7 +8,7 @@ The hyperlink text transforming was based off of jLinker.js by Michalis Tzikas a
 
 Let's say you have this message:
 
-> This is a test tweet to @terenceponce http://t.co/something
+> This is a test tweet to @terenceponce \http://t.co/something
 
 ```html
 <p class="message">This is a test tweet to @terenceponce http://t.co/something</p>

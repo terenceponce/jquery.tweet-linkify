@@ -13,7 +13,14 @@
 */
 (function($){
   $.fn.tweetLinkify = function(options) {
-
+    $(this).each(function() {
+      var tweet = TweetLinkify($(this).text(), options)
+      $(this).html(tweet);
+    })
+  }
+  
+  
+  window.TweetLinkify = function(tweet, options) {
     var defaultAttributes = {
       excludeHyperlinks: false,
       excludeMentions: false,
@@ -28,25 +35,22 @@
     targetString = (options.target != '') ? 'target="_' + options.target + '"' : '';
     classString = (options.className != '') ? 'class="' + options.className + '"' : '';
     relString = (options.rel != '') ? 'rel="' + options.rel + '"' : '';
+    options = $.extend(defaultAttributes, options);
+    if (options.excludeHyperlinks != true) {
+      tweet = tweet.replace(/(https\:\/\/|http:\/\/)([www\.]?)([^\s|<]+)/gi, '<a href="$1$2$3" ' + targetString + ' ' + classString + ' ' + relString + '>$1$2$3</a>');
+      tweet = tweet.replace(/([^https\:\/\/]|[^http:\/\/]|^)(www)\.([^\s|<]+)/gi, '$1<a href="http://$2.$3" ' + targetString + ' ' + classString + ' ' + relString + '>$2.$3</a>');
+      tweet = tweet.replace(/<([^a]|^\/a])([^<>]+)>/g, "&lt;$1$2&gt;").replace(/&lt;\/a&gt;/g, "</a>").replace(/<(.)>/g, "&lt;$1&gt;").replace(/\n/g, '<br />');
+    }
 
-    $(this).each(function() {
-      tweet = $(this).text();
+    if (options.excludeMentions != true) {
+      tweet = tweet.replace(/(@)(\w+)/, '<a href="http://twitter.com/$2">$1$2</a>');
+    }
 
-      if (options.excludeHyperlinks != true) {
-        tweet = tweet.replace(/(https\:\/\/|http:\/\/)([www\.]?)([^\s|<]+)/gi, '<a href="$1$2$3" ' + targetString + ' ' + classString + ' ' + relString + '>$1$2$3</a>');
-        tweet = tweet.replace(/([^https\:\/\/]|[^http:\/\/]|^)(www)\.([^\s|<]+)/gi, '$1<a href="http://$2.$3" ' + targetString + ' ' + classString + ' ' + relString + '>$2.$3</a>');
-        tweet = tweet.replace(/<([^a]|^\/a])([^<>]+)>/g, "&lt;$1$2&gt;").replace(/&lt;\/a&gt;/g, "</a>").replace(/<(.)>/g, "&lt;$1&gt;").replace(/\n/g, '<br />');
-      }
-
-      if (options.excludeMentions != true) {
-        tweet = tweet.replace(/(@)(\w+)/, '<a href="http://twitter.com/$2">$1$2</a>');
-      }
-
-      if (options.excludeHashtags != true) {
-        tweet = tweet.replace(/(#)(\w+)/, '<a href="https://twitter.com/search/?src=hash&q=%23$2">$1$2</a>');
-      }
-
-      $(this).html(tweet);
-    })
+    if (options.excludeHashtags != true) {
+      tweet = tweet.replace(/(#)(\w+)/, '<a href="https://twitter.com/search/?src=hash&q=%23$2">$1$2</a>');
+    }
+    return tweet;
   }
+    
 })(jQuery);
+

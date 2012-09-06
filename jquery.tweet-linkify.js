@@ -8,7 +8,7 @@
 
   The hyperlink text transforming was based off of jLinker.js by Michalis Tzikas and Vasilis Lolos.
 
-  The use-case of this plugin is very small and using this plugin means that you're most probably
+  The use-case of this plugin is very specific, so using this plugin means that you're probably
   calling the Twitter API through Javascript just like me.
 */
 (function($){
@@ -17,7 +17,7 @@
     var defaultAttributes = {
       excludeHyperlinks: false,
       excludeMentions: false,
-      excluldeHashtags: false,
+      excludeHashtags: false,
       target: '',
       className: '',
       rel: ''
@@ -42,7 +42,7 @@
         tweet = tweet.replace(/(@)(\w+)/, '<a href="http://twitter.com/$2">$1$2</a>');
       }
 
-      if (options.excluldeHashtags != true) {
+      if (options.excludeHashtags != true) {
         tweet = tweet.replace(/(#)(\w+)/, '<a href="https://twitter.com/search/?src=hash&q=%23$2">$1$2</a>');
       }
 

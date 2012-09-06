@@ -8,7 +8,7 @@ The hyperlink text transforming was based off of jLinker.js by Michalis Tzikas a
 
 Let's say you have this message:
 
-> This is a test tweet to @terenceponce \http://t.co/something
+`This is a test tweet to @terenceponce http://t.co/something`
 
 ```html
 <p class="message">This is a test tweet to @terenceponce http://t.co/something</p>

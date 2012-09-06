@@ -10,7 +10,7 @@ The hyperlink text transforming was based off of jLinker.js by Michalis Tzikas a
 
 Let's say you have this message:
 
-`This is a test tweet to @terenceponce http://t.co/something`
+`This is a test tweet to @terenceponce http://t.co/something #YOLO`
 
 ```html
 <p class="message">This is a test tweet to @terenceponce http://t.co/something</p>
@@ -18,10 +18,10 @@ Let's say you have this message:
 
 Doing `$('p.message').tweetLinkify();` will transform the text into this:
 
-> This is a test tweet to [@terenceponce](http://twitter.com/terenceponce) [http://t.co/something](http://t.co/something)
+> This is a test tweet to [@terenceponce](http://twitter.com/terenceponce) [http://t.co/something](http://t.co/something) [#YOLO](https://twitter.com/search/?src=hash&q=%23YOLO)
 
 ```html
-<p class="message">This is a test tweet to <a href="http://twitter.com/terenceponce">@terenceponce</a> <a href="http://t.co/something">http://t.co/something</a></p>
+<p class="message">This is a test tweet to <a href="http://twitter.com/terenceponce">@terenceponce</a> <a href="http://t.co/something">http://t.co/something</a> <a href="https://twitter.com/search/?src=hash&q=%23YOLO">#YOLO</a></p>
 ```
 
 ### Advanced Usage

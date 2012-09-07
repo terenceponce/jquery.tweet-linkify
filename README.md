@@ -41,12 +41,13 @@ The plugin accepts multiple options:
 * `mentionRel` - The `rel` attribute for mentions.
 * `hashtagRel` - The `rel` attribute for hashtags.
 
-Let's say I want the hyperlinks to have a class name and open to a new tab instead of the same window. Using the previous example:
+Let's say I want the hyperlinks and mentions to have a class name and the hyperlinks to open to a new tab instead of the same window. Using the previous example:
 
 ```javascript
 var options = {
-  target: 'blank',
-  hyperlinkClass: 'yolo-swag'
+  hyperlinkTarget: 'blank',
+  hyperlinkClass: 'yolo',
+  mentionClass: 'swag'
 };
 
 $('p.tweet').tweetLinkify(options);
@@ -55,5 +56,5 @@ $('p.tweet').tweetLinkify(options);
 Will transform into this:
 
 ```html
-<p class="tweet">This is a test tweet to @terenceponce <a href="http://t.co/something" target="_blank" class="yolo-swag">http://t.co/something</a> <a href="https://twitter.com/search/?src=hash&q=%23YOLO">#YOLO</a></p>
+<p class="tweet">This is a test tweet to <a href="http://twitter.com/terenceponce" class="swag">@terenceponce</a> <a href="http://t.co/something" target="_blank" class="yolo">http://t.co/something</a> <a href="https://twitter.com/search/?src=hash&q=%23YOLO">#YOLO</a></p>
 ```

@@ -33,6 +33,7 @@ The plugin accepts multiple options:
 * `excludeHashtags` - Excludes #hashtag texts from being transformed. Defaults to `false`
 * `hyperlinkTarget` - The `target` attribute for hyperlinks. Options are `blank`, `self`, `parent`, and `top`
 * `mentionTarget` - The `target` attribute for mentions. Options are `blank`, `self`, `parent`, and `top`
+* `mentionIntent` - Transforms the mention into a [Twitter web user intent](https://dev.twitter.com/docs/intents#follow-intent). Defaults to `false`
 * `hashtagTarget` - The `target` attribute for hashtags. Options are `blank`, `self`, `parent`, and `top`
 * `hyperlinkClass` - The `class` attribute for hyperlinks.
 * `mentionClass` - The `class` attribute for mentions.

@@ -8,45 +8,66 @@
 
   The hyperlink text transforming was based off of jLinker.js by Michalis Tzikas and Vasilis Lolos.
 
-  The use-case of this plugin is very small and using this plugin means that you're most probably
+  The use-case of this plugin is very specific, so using this plugin means that you're probably
   calling the Twitter API through Javascript just like me.
 */
 (function($){
   $.fn.tweetLinkify = function(options) {
-
+    $(this).each(function() {
+      var tweet = TweetLinkify($(this).text(), options)
+      $(this).html(tweet);
+    })
+  }
+  
+  
+  window.TweetLinkify = function(tweet, options) {
     var defaultAttributes = {
       excludeHyperlinks: false,
       excludeMentions: false,
-      excluldeHashtags: false,
-      target: '',
-      className: '',
-      rel: ''
+      excludeHashtags: false,
+      hyperlinkTarget: '',
+      mentionTarget: '',
+      mentionIntent: false,
+      hashtagTarget: '',
+      hyperlinkClass: '',
+      mentionClass: '',
+      hashtagClass: '',
+      hyperlinkRel: '',
+      mentionRel: '',
+      hashtagRel: ''
     };
 
     var options = $.extend(defaultAttributes, options);
 
-    targetString = (options.target != '') ? 'target="_' + options.target + '"' : '';
-    classString = (options.className != '') ? 'class="' + options.className + '"' : '';
-    relString = (options.rel != '') ? 'rel="' + options.rel + '"' : '';
+    var hyperlinkTarget = (options.hyperlinkTarget != '') ? 'target="_' + options.hyperlinkTarget + '"' : '';
+    var mentionTarget = (options.mentionTarget != '') ? 'target="_' + options.mentionTarget + '"' : '';
+    var hashtagTarget = (options.hashtagTarget != '') ? 'target="_' + options.hashtagTarget + '"' : '';
+    var hyperlinkClass = (options.hyperlinkClass != '') ? 'class="' + options.hyperlinkClass + '"' : '';
+    var mentionClass = (options.mentionClass != '') ? 'class="' + options.mentionClass + '"' : '';
+    var hashtagClass = (options.hashtagClass != '') ? 'class="' + options.hashtagClass + '"' : '';
+    var hyperlinkRel = (options.hyperlinkRel != '') ? 'rel="' + options.hyperlinkRel + '"' : '';
+    var mentionRel = (options.mentionRel != '') ? 'rel="' + options.mentionRel + '"' : '';
+    var hashtagRel = (options.hashtagRel != '') ? 'rel="' + options.hashtagRel + '"' : '';
 
-    $(this).each(function() {
-      tweet = $(this).text();
+    if (options.excludeHyperlinks != true) {
+      tweet = tweet.replace(/(https\:\/\/|http:\/\/)([www\.]?)([^\s|<]+)/gi, '<a href="$1$2$3" ' + hyperlinkTarget + ' ' + hyperlinkClass + ' ' + hyperlinkRel + '>$1$2$3</a>');
+      tweet = tweet.replace(/([^https\:\/\/]|[^http:\/\/]|^)(www)\.([^\s|<]+)/gi, '$1<a href="http://$2.$3" ' + hyperlinkTarget + ' ' + hyperlinkClass + ' ' + hyperlinkRel + '>$2.$3</a>');
+      tweet = tweet.replace(/<([^a]|^\/a])([^<>]+)>/g, "&lt;$1$2&gt;").replace(/&lt;\/a&gt;/g, "</a>").replace(/<(.)>/g, "&lt;$1&gt;").replace(/\n/g, '<br />');
+    }
 
-      if (options.excludeHyperlinks != true) {
-        tweet = tweet.replace(/(https\:\/\/|http:\/\/)([www\.]?)([^\s|<]+)/gi, '<a href="$1$2$3" ' + targetString + ' ' + classString + ' ' + relString + '>$1$2$3</a>');
-        tweet = tweet.replace(/([^https\:\/\/]|[^http:\/\/]|^)(www)\.([^\s|<]+)/gi, '$1<a href="http://$2.$3" ' + targetString + ' ' + classString + ' ' + relString + '>$2.$3</a>');
-        tweet = tweet.replace(/<([^a]|^\/a])([^<>]+)>/g, "&lt;$1$2&gt;").replace(/&lt;\/a&gt;/g, "</a>").replace(/<(.)>/g, "&lt;$1&gt;").replace(/\n/g, '<br />');
+    if (options.excludeMentions != true) {
+      if (options.mentionIntent == false) {
+        tweet = tweet.replace(/(@)(\w+)/g, '<a href="http://twitter.com/$2" ' + mentionTarget + ' ' + mentionClass + ' ' + mentionRel + '>$1$2</a>');
+      } else {
+        tweet = tweet.replace(/(@)(\w+)/g, '<a href="http://twitter.com/intent/user?screen_name=$2">$1$2</a>');
       }
+    }
 
-      if (options.excludeMentions != true) {
-        tweet = tweet.replace(/(@)(\w+)/, '<a href="http://twitter.com/$2">$1$2</a>');
-      }
-
-      if (options.excluldeHashtags != true) {
-        tweet = tweet.replace(/(#)(\w+)/, '<a href="https://twitter.com/search/?src=hash&q=%23$2">$1$2</a>');
-      }
-
-      $(this).html(tweet);
-    })
+    if (options.excludeHashtags != true) {
+      tweet = tweet.replace(/(#)(\w+)/g, '<a href="https://twitter.com/search/?src=hash&q=%23$2" ' + hashtagTarget + ' ' + hashtagClass + ' ' + hashtagRel + '>$1$2</a>');
+    }
+    
+    return tweet;
   }
+    
 })(jQuery);
